@@ -7,5 +7,6 @@ log/login.html
 
 log/projects/
 log/profile/
+data.js
 
 node_modules/
