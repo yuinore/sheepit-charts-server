@@ -1,0 +1,11 @@
+.env
+
+cookies.txt
+cookies2.txt
+log/authenticate.html
+log/login.html
+
+log/projects/
+log/profile/
+
+node_modules/
