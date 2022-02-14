@@ -1,0 +1,10 @@
+{
+  "name": "sheepit-charts-server",
+  "version": "1.0.0",
+  "main": "index.mjs",
+  "license": "MIT",
+  "devDependencies": {
+    "jsdom": "^19.0.0",
+    "node-fetch": "^3.2.0"
+  }
+}
