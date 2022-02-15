@@ -6,19 +6,25 @@
   var myChart = echarts.init(chartDom);
   var option;
 
-  data = points.map((x, i) => [i, x]);
+  const min = points.reduce((x, y) => Math.min(x, y));
+  const max = points.reduce((x, y) => Math.max(x, y));
+  const diff = max - min;
 
   option = {
+    title: {
+      left: 'center',
+      text: 'Points',
+    },
     tooltip: {
+      trigger: 'axis',
       position: 'top',
     },
     xAxis: {
-      type: 'value',
+      data: labels.map((x) => new Date(x).toLocaleString()),
     },
     yAxis: {
-      type: 'value',
-      min: 'auto',
-      max: 'auto',
+      min: Math.ceil(max + diff * 0.05),
+      max: Math.floor(min - diff * 0.05),
     },
     grid: {},
     dataZoom: [
@@ -35,10 +41,11 @@
     ],
     series: [
       {
-        data: data,
+        data: points,
         type: 'line',
       },
     ],
+    animation: false,
   };
 
   option && myChart.setOption(option);
