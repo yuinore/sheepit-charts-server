@@ -2,5 +2,4 @@ tmp/
 log/
 node_modules/
 visualizer/lib/
-
-visualizer/data.js
+visualizer/data/

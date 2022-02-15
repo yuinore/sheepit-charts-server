@@ -1,0 +1,49 @@
+<div id="main" style="width: 99%; height: 99%"></div>
+<script src="./lib/echarts.js"></script>
+<script src="./data/profile.js"></script>
+<script>
+  var chartDom = document.getElementById('main');
+  var myChart = echarts.init(chartDom);
+  var option;
+
+  data = points.map((x, i) => [i, x]);
+
+  option = {
+    tooltip: {
+      position: 'top',
+    },
+    xAxis: {
+      type: 'value',
+    },
+    yAxis: {
+      type: 'value',
+      min: 'auto',
+      max: 'auto',
+    },
+    grid: {},
+    dataZoom: [
+      {
+        type: 'slider',
+        xAxisIndex: 0,
+        filterMode: 'none',
+      },
+      {
+        type: 'inside',
+        xAxisIndex: 0,
+        filterMode: 'none',
+      },
+    ],
+    series: [
+      {
+        data: data,
+        type: 'line',
+      },
+    ],
+  };
+
+  option && myChart.setOption(option);
+
+  window.onresize = function () {
+    myChart.resize();
+  };
+</script>
