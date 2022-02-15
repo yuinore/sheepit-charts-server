@@ -93,6 +93,26 @@ option = {
         shadowColor: 'rgba(0, 0, 0, 0.5)',
       },
     },
+    markArea:
+      labels[i].indexOf('ikgirncfw') < 0 && labels[i].indexOf('kira96c') < 0
+        ? {}
+        : {
+            itemStyle: {
+              color: 'rgba(0, 255, 0, 0.25)',
+            },
+            data: [
+              [
+                {
+                  name: '',
+                  yAxis: i - 1,
+                },
+                {
+                  yAxis: i + 1,
+                },
+              ],
+            ],
+          },
+    large: true,
   })),
 };
 
