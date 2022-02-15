@@ -70,15 +70,7 @@ option = {
     calculable: true,
     orient: 'horizontal',
     inRange: {
-      color: [
-        '#cccccc',
-        '#ccccff',
-        '#99ffff',
-        '#88ff88',
-        '#fffc6c',
-        '#ffac5c',
-        '#ff4c4c',
-      ],
+      color: COLORS,
     },
     max: data_max,
   },
@@ -100,7 +92,7 @@ option = {
         ? {}
         : {
             itemStyle: {
-              color: 'rgba(0, 255, 0, 0.75)',
+              color: 'rgba(255, 0, 128, 0.10)',
             },
             data: [
               [
