@@ -37,9 +37,9 @@ const { JSDOM } = jsdom;
             table_remain.push([]);
             labelIndex = labels.length - 1;
           }
-          table[labelIndex].push([i, labelIndex, frames]);
-          table_progress[labelIndex].push([i, labelIndex, progress]);
-          table_remain[labelIndex].push([i, labelIndex, remain]);
+          table[labelIndex].push([i, frames]);
+          table_progress[labelIndex].push([i, progress]);
+          table_remain[labelIndex].push([i, remain]);
         }
 
         xaxis.push(i);

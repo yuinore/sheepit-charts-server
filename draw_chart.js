@@ -2,9 +2,21 @@ var chartDom = document.getElementById('main');
 var myChart = echarts.init(chartDom);
 var option;
 
-const labels_reverse = labels.slice();
-labels_reverse.reverse();
-table.forEach(x => x.forEach(y => y[1] = labels.length - y[1] - 1));
+if (xaxis.length > 288) {
+  table = table.map(x => x.map(y => [y[0] - (xaxis.length - 288), y[1]]).filter(y => y[0] >= 0));
+  xaxis = xaxis.slice(-288);
+
+  for (let i = labels.length - 1; i >= 0; i--) {
+    if (table[i].length == 0) {
+      table.splice(i, 1);
+      labels.splice(i, 1);
+    }
+  }
+}
+
+labels.reverse();
+table.reverse();
+table = table.map((x, i) => x.map(y => [y[0], i, y[1]]));
 
 const data = table;
 const data_max = data
@@ -47,7 +59,7 @@ option = {
     splitArea: {
       show: true
     },
-    data: labels_reverse,
+    data: labels,
   },
   visualMap: {
     show: false,
