@@ -3,7 +3,9 @@ var myChart = echarts.init(chartDom);
 var option;
 
 if (xaxis.length > 288) {
-  table = table.map(x => x.map(y => [y[0] - (xaxis.length - 288), y[1]]).filter(y => y[0] >= 0));
+  table = table.map((x) =>
+    x.map((y) => [y[0] - (xaxis.length - 288), y[1]]).filter((y) => y[0] >= 0),
+  );
   xaxis = xaxis.slice(-288);
 
   for (let i = labels.length - 1; i >= 0; i--) {
@@ -16,7 +18,7 @@ if (xaxis.length > 288) {
 
 labels.reverse();
 table.reverse();
-table = table.map((x, i) => x.map(y => [y[0], i, y[1]]));
+table = table.map((x, i) => x.map((y) => [y[0], i, y[1]]));
 
 const data = table;
 const data_max = data
@@ -26,12 +28,12 @@ const data_max = data
 
 option = {
   tooltip: {
-    position: 'top'
+    position: 'top',
   },
   grid: {
     height: '90%',
     width: ' 50%',
-    left: '25%'
+    left: '25%',
   },
   dataZoom: [
     {
@@ -39,25 +41,25 @@ option = {
       left: '76%',
       width: '48px',
       yAxisIndex: 0,
-      filterMode: 'none'
+      filterMode: 'none',
     },
     {
       type: 'inside',
       yAxisIndex: 0,
-      filterMode: 'none'
-    }
+      filterMode: 'none',
+    },
   ],
   xAxis: {
     type: 'category',
     splitArea: {
-      show: true
+      show: true,
     },
-    data: xaxis
+    data: xaxis,
   },
   yAxis: {
     type: 'category',
     splitArea: {
-      show: true
+      show: true,
     },
     data: labels,
   },
@@ -66,28 +68,36 @@ option = {
     calculable: true,
     orient: 'horizontal',
     inRange: {
-      color: ['#cccccc', '#ccccff', '#99ffff', '#88ff88', '#fffc6c', '#ffac5c', '#ff4c4c']
+      color: [
+        '#cccccc',
+        '#ccccff',
+        '#99ffff',
+        '#88ff88',
+        '#fffc6c',
+        '#ffac5c',
+        '#ff4c4c',
+      ],
     },
-    max: data_max
+    max: data_max,
   },
   series: data.map((data_i, i) => ({
     name: labels[i],
     type: 'heatmap',
     data: data_i,
     label: {
-      show: false
+      show: false,
     },
     emphasis: {
       itemStyle: {
         shadowBlur: 10,
-        shadowColor: 'rgba(0, 0, 0, 0.5)'
-      }
-    }
-  }))
+        shadowColor: 'rgba(0, 0, 0, 0.5)',
+      },
+    },
+  })),
 };
 
 option && myChart.setOption(option);
 
-window.onresize = function() {
+window.onresize = function () {
   myChart.resize();
 };

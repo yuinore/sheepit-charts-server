@@ -7,10 +7,12 @@ import fs from 'fs';
 const { JSDOM } = jsdom;
 
 (async () => {
-  fs.readdir('./log/projects/', function(err, files) {
-    var fileList = files.filter(function(file){
-        return fs.statSync(`./log/projects/${file}`).isFile() && /.*\.json$/.test(file); //絞り込み
-    })
+  fs.readdir('./log/projects/', function (err, files) {
+    var fileList = files.filter(function (file) {
+      return (
+        fs.statSync(`./log/projects/${file}`).isFile() && /.*\.json$/.test(file)
+      ); //絞り込み
+    });
 
     const table = [];
     const table_progress = [];
@@ -23,7 +25,10 @@ const { JSDOM } = jsdom;
       console.log(filename);
       const filebasename = filename.match(/(.*)\.json/)[1];
 
-      const data = fs.readFileSync(`./log/projects/${filebasename}.json`, 'utf-8');
+      const data = fs.readFileSync(
+        `./log/projects/${filebasename}.json`,
+        'utf-8',
+      );
 
       {
         const column = JSON.parse(data);
@@ -44,10 +49,10 @@ const { JSDOM } = jsdom;
 
         xaxis.push(i);
         i++;
-      };
+      }
     }
 
-    let str = "";
+    let str = '';
     str += `labels = ${JSON.stringify(labels)}; `;
     str += `xaxis = ${JSON.stringify(xaxis)}; `;
     str += `table = ${JSON.stringify(table)}; `;
@@ -59,8 +64,6 @@ const { JSDOM } = jsdom;
     console.log(`table_progress = ${JSON.stringify(table_progress)}`);
     console.log(`table_remain = ${JSON.stringify(table_remain)}`);
 
-    fs.writeFile(`./data.js`, str, (err) => {
-    });
+    fs.writeFile(`./data.js`, str, (err) => {});
   });
 })();
-
