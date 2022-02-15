@@ -5,8 +5,7 @@ cookies2.txt
 log/authenticate.html
 log/login.html
 
-log/projects/
-log/profile/
+log/
 data.js
 
 node_modules/
