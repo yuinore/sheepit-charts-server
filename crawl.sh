@@ -25,5 +25,5 @@ mv log/profile.html "log/profile/profile_${filename}.html"
 wget -T 40 -t 3 --load-cookies=cookies2.txt -E https://www.sheepit-renderfarm.com/user/ikgirncfw/profile -O log/profile2.html
 mv log/profile2.html "log/profile2/profile2_${filename}.html"
 
-${NODENV_PATH} index.mjs
-${NODENV_PATH} aggregate.mjs
+${NODE_PATH} index.mjs
+${NODE_PATH} aggregate.mjs
