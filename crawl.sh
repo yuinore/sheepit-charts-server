@@ -7,6 +7,7 @@ eval "$(cat .env <(echo) <(declare -x))"
 mkdir -p log  # if not exists
 mkdir -p log/projects
 mkdir -p log/profile
+mkdir -p log/profile2
 
 starttime=`date +"%Y/%m/%d %T"`
 filename=$(date +'%Y%m%d_%H%M%S')
@@ -21,5 +22,8 @@ mv log/projects.html "log/projects/projects_${filename}.html"
 wget -T 40 -t 3 --load-cookies=cookies2.txt -E https://www.sheepit-renderfarm.com/user/kira96c/profile -O log/profile.html
 mv log/profile.html "log/profile/profile_${filename}.html"
 
-/home/chino/.nodenv/shims/node index.mjs
-/home/chino/.nodenv/shims/node aggregate.mjs
+wget -T 40 -t 3 --load-cookies=cookies2.txt -E https://www.sheepit-renderfarm.com/user/ikgirncfw/profile -O log/profile2.html
+mv log/profile2.html "log/profile2/profile2_${filename}.html"
+
+/home/fuyu/.nodenv/shims/node index.mjs
+/home/fuyu/.nodenv/shims/node aggregate.mjs
