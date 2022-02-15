@@ -2,12 +2,11 @@ var chartDom = document.getElementById('main');
 var myChart = echarts.init(chartDom);
 var option;
 
-labels.reverse();
-table.reverse();
+const labels_reverse = labels.slice();
+labels_reverse.reverse();
+table.forEach(x => x.forEach(y => y[1] = labels.length - y[1] - 1));
 
-const data = table.map((x, i) =>
-  x.map((y, j) => [j, i, y]).filter(([i, j, y]) => y != -1)
-);
+const data = table;
 const data_max = data
   .flat()
   .map(([i, j, y]) => y)
@@ -48,7 +47,7 @@ option = {
     splitArea: {
       show: true
     },
-    data: labels
+    data: labels_reverse,
   },
   visualMap: {
     show: false,

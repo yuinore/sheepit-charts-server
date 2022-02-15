@@ -37,22 +37,14 @@ const { JSDOM } = jsdom;
             table_remain.push([]);
             labelIndex = labels.length - 1;
           }
-          table[labelIndex][i] = frames;
-          table_progress[labelIndex][i] = progress;
-          table_remain[labelIndex][i] = remain;
+          table[labelIndex].push([i, labelIndex, frames]);
+          table_progress[labelIndex].push([i, labelIndex, progress]);
+          table_remain[labelIndex].push([i, labelIndex, remain]);
         }
 
         xaxis.push(i);
         i++;
       };
-    }
-
-    for (let j = 0; j < i; j++) {
-      for (let k = 0; k < labels.length; k++) {
-        table[k][j] = table[k][j] === undefined ? -1 : table[k][j];
-        table_progress[k][j] = table_progress[k][j] === undefined ? -1 : table_progress[k][j];
-        table_remain[k][j] = table_remain[k][j] === undefined ? -1 : table_remain[k][j];
-      }
     }
 
     let str = "";
