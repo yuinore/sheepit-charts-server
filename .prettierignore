@@ -1,5 +1,6 @@
-lib/
+tmp/
 log/
 node_modules/
+visualizer/lib/
 
-data.js
+visualizer/data.js

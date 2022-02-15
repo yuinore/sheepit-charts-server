@@ -64,6 +64,6 @@ const { JSDOM } = jsdom;
     console.log(`table_progress = ${JSON.stringify(table_progress)}`);
     console.log(`table_remain = ${JSON.stringify(table_remain)}`);
 
-    fs.writeFile(`./data.js`, str, (err) => {});
+    fs.writeFile(`./visualizer/data.js`, str, (err) => {});
   });
 })();

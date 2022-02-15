@@ -1,11 +1,8 @@
 .env
 
-cookies.txt
-cookies2.txt
-log/authenticate.html
-log/login.html
-
+tmp/
 log/
-data.js
-
 node_modules/
+
+visualizer/data.js
+

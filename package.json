@@ -1,7 +1,7 @@
 {
   "name": "sheepit-charts-server",
   "version": "1.0.0",
-  "main": "index.mjs",
+  "main": "tools/parse.mjs",
   "license": "MIT",
   "scripts": {
     "format": "prettier --write ."
