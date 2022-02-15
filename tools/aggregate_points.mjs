@@ -33,8 +33,6 @@ const { JSDOM } = jsdom;
         `${timeStr.substr(2, 2)}:` +
         `${timeStr.substr(4, 2)}Z`;
       console.log(datetime);
-      const date = new Date(datetime);
-      console.log(date);
 
       const data = fs.readFileSync(`./log/profile/${filebasename}.json`);
       const column = JSON.parse(data);

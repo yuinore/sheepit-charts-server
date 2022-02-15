@@ -20,7 +20,9 @@
       position: 'top',
     },
     xAxis: {
-      data: labels.map((x) => new Date(x).toLocaleString()),
+      data: labels.map((x) =>
+        new Date(x).toLocaleString('default', { hour12: false }),
+      ),
     },
     yAxis: {
       min: Math.ceil(max + diff * 0.05),

@@ -29,8 +29,18 @@ const { JSDOM } = jsdom;
       console.log(filename);
       const filebasename = filename.match(/(.*)\.json/)[1];
 
-      const data = fs.readFileSync(`./log/projects/${filebasename}.json`);
+      const dateStr = filebasename.split('_')[1];
+      const timeStr = filebasename.split('_')[2];
+      const datetime =
+        `${dateStr.substr(0, 4)}-` +
+        `${dateStr.substr(4, 2)}-` +
+        `${dateStr.substr(6, 2)}T` +
+        `${timeStr.substr(0, 2)}:` +
+        `${timeStr.substr(2, 2)}:` +
+        `${timeStr.substr(4, 2)}Z`;
+      console.log(datetime);
 
+      const data = fs.readFileSync(`./log/projects/${filebasename}.json`);
       const column = JSON.parse(data);
 
       for (const [title, frames, progress, remain] of column) {
@@ -47,7 +57,7 @@ const { JSDOM } = jsdom;
         table_remain[labelIndex].push([i, remain]);
       }
 
-      xaxis.push(i);
+      xaxis.push(datetime);
       i++;
     }
 

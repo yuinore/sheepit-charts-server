@@ -54,7 +54,9 @@ option = {
     splitArea: {
       show: true,
     },
-    data: xaxis,
+    data: xaxis.map((x) =>
+      new Date(x).toLocaleString('default', { hour12: false }),
+    ),
   },
   yAxis: {
     type: 'category',

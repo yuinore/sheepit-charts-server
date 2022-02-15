@@ -10,7 +10,9 @@ mkdir -p log/profile
 mkdir -p log/profile2
 
 starttime=`date +"%Y/%m/%d %T"`
-filename=$(date +'%Y%m%d_%H%M%S')
+
+# UTC Time
+filename=$(date -u +'%Y%m%d_%H%M%S')
 
 wget -T 40 -t 3 --keep-session-cookies --save-cookies=tmp/cookies.txt -E https://www.sheepit-renderfarm.com/user/signin -O tmp/login.html
 
