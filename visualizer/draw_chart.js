@@ -92,7 +92,7 @@ option = {
         ? {}
         : {
             itemStyle: {
-              color: 'rgba(255, 0, 128, 0.10)',
+              color: 'rgba(255, 230, 242, 1.00)',
             },
             data: [
               [
