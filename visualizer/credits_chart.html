@@ -1,0 +1,174 @@
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+<script src="./data/profile.js"></script>
+
+<div id="chart_div1"></div>
+<div id="chart_div2"></div>
+<div id="chart_div3"></div>
+<div id="chart_div4"></div>
+<div id="chart_div5"></div>
+<div id="chart_div6"></div>
+<div id="chart_div7"></div>
+<div id="chart_div8"></div>
+<div id="chart_div9"></div>
+<div id="chart_div10"></div>
+
+<script type="text/javascript">
+google.charts.load('current', {packages: ['corechart', 'bar']});
+google.charts.setOnLoadCallback(drawChart);
+
+var timespan = 6;  // 6 == 1hour
+var showDays = 7;
+var MAX_DATAPOINTS = 2048;
+
+var msecToDays = 1 / (1000 * 60 * 60 * 24);
+
+function limitNumOfDataPoints(arr) {
+  var step = Math.ceil(arr.length / MAX_DATAPOINTS);
+  arr = arr.filter((x,i) => i % step == 0);
+  return arr;
+}
+
+function getUrlVars()
+{
+    var vars = [], max = 0, hash = "", array = "";
+    var url = window.location.search;
+
+    if(!url) {
+      window.location.search = "days=9999&smooth=60"
+      return [];
+    }
+
+    //?を取り除くため、slice(1) しておく。複数のクエリ文字列に対応するため、&で区切る
+    url.slice(1).split('&').forEach(keyvalue => {
+        arr = keyvalue.split('=');
+        //vars.push(array[0]);
+        vars[arr[0]] = arr[1];
+    });
+
+    return vars;
+}
+
+vars = getUrlVars();
+vars["days"] && (showDays = vars["days"] - 0);
+vars["smooth"] && (timespan = vars["smooth"] - 0);
+
+function drawChart() {
+
+  setTimeout(() => {
+    var csv = labels.map((x, i) => [new Date(x), points[i] - 0]);
+
+    var csv2 = [];
+
+    if(true) {
+      csv2 = csv.slice(0, -(1 - 0)).map((x, i) => [
+          csv[i + 1][0],
+          csv[i + 1][1] - x[1]
+        ]).map(x => [
+          x[0],
+          x[1] * (0 <= x[1] && x[1] < 10000),
+          x[1] * (10000 <= x[1]),
+          x[1] * (x[1] < 0)
+        ]);
+
+      // integrate (長さ1減ってる)
+      for(var i = 1; i < csv2.length; i++) {
+        csv2[i][1] = csv2[i - 1][1] + csv2[i][1];
+        csv2[i][2] = csv2[i - 1][2] + csv2[i][2];
+        csv2[i][3] = csv2[i - 1][3] + csv2[i][3];
+      }
+
+      csv2 = csv2.slice(0, -(timespan - 0)).map((x, i) => [
+          csv2[i + timespan][0],
+          (csv2[i + timespan][1] - x[1]) / ((csv2[i + timespan][0] - x[0]) * msecToDays),
+          (csv2[i + timespan][2] - x[2]) / ((csv2[i + timespan][0] - x[0]) * msecToDays),
+          (csv2[i + timespan][3] - x[3]) / ((csv2[i + timespan][0] - x[0]) * msecToDays)
+        ]);
+    }
+
+    csv = csv.filter(x => ((csv[csv.length - 1][0] - x[0]) * msecToDays <= showDays));
+    csv2 = csv2.filter(x => ((csv2[csv2.length - 1][0] - x[0]) * msecToDays <= showDays));
+
+    // 軽量化のために、データ点数の制限を行う
+    csv  = limitNumOfDataPoints(csv);
+    csv2 = limitNumOfDataPoints(csv2);
+
+    csv.unshift(['Time', 'Credits']);
+    csv2.unshift(['Time', 'Credits Delta', 'b', 'c']);
+
+    var data1 = google.visualization.arrayToDataTable(csv);
+    var data2 = google.visualization.arrayToDataTable(csv2);
+
+    var options1 = {
+      hAxis: {title: 'Time'},
+      vAxis: {title: 'Credits'},
+      legend: 'none',
+      lineWidth: 2,
+      curveType: 'none',
+      pointSize: 0,
+      width: '1200',
+      height: '600'
+    };
+
+    var options2 = Object.assign({}, options1);  // shallow copy
+    if(true) {
+      options2.vAxis = Object.assign({}, options2.vAxis);  // shallow copy
+      options2.vAxis.viewWindow = {min:-100000, max: 300000};
+    }
+
+    var chart1 = new google.visualization.ScatterChart(document.getElementById('chart_div2'));
+    chart1.draw(data1, options1);
+
+    var chart2 = new google.visualization.ScatterChart(document.getElementById('chart_div1'));
+    chart2.draw(data2, options2);
+  });
+
+  var generateChartDrawer = ((yLabel, divId, b) => (function(csv) {
+    csv = csv.split('\n').filter(x => x).map((x, i) => {
+      var y = x.split(',');
+      if(b) {
+        return [new Date(y[0]), (new Date(y[1]) - new Date(y[0])) / 1000];
+      }else {
+        return y.map((z, i) => (i == 0) ? new Date(z) : z - 0);
+      }
+    }).filter(x => x.slice(1).some(x => x));
+
+    csv = csv.filter(x => ((csv[csv.length - 1][0] - x[0]) * msecToDays <= showDays));
+
+    // 軽量化のために、データ点数の制限を行う
+    csv = limitNumOfDataPoints(csv);
+
+    var data = google.visualization.arrayToDataTable(csv);
+
+    var options = {
+      hAxis: {title: 'Time'},
+      vAxis: {title: yLabel[0]},
+      legend: 'none',
+      lineWidth: 2,
+      curveType: 'none',
+      pointSize: 0,
+      width: '1200',
+      height: '600'
+    };
+
+    var chart = new google.visualization.ScatterChart(document.getElementById(divId));
+
+    chart.draw(data, options);
+  }));
+
+  $.get("https://yuinore.moe/mcount.csv",
+      generateChartDrawer(["Machines Count"], "chart_div3"));
+  $.get("https://yuinore.moe/processing_frames2.csv",
+      generateChartDrawer(["Processing Frames", "Total", "Processing Frames2"], "chart_div5"));
+  $.get("https://yuinore.moe/remaining_frames.csv",
+      generateChartDrawer(["Remaining Frames"], "chart_div8"));
+  $.get("https://yuinore.moe/active_projects.csv",
+      generateChartDrawer(["Active Projects"], "chart_div9"));
+  $.get("https://yuinore.moe/delay.csv",
+      generateChartDrawer(["delay"], "chart_div10", true));
+}
+
+</script>
